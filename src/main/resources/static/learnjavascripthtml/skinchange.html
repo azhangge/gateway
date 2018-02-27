@@ -1,0 +1,31 @@
+<!--
+    1 网站换肤
+    2 换的是css样式文件
+    3 css文件引入：link rel type href
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link id="link1" rel="stylesheet" type="text/css" href="" />
+</head>
+<body>
+    <input type="button" value="皮肤1" onclick="link1()" />
+    <input type="button" value="皮肤2" onclick="link2()" />
+</body>
+
+<script>
+    function link1() {
+        var skin1 = document.getElementById('link1');
+        skin1.href = '../learnjavascriptcss/skin1.css';
+    }
+
+    function link2() {
+        var skin2 = document.getElementById('link1');
+        skin2.href = '../learnjavascriptcss/skin2.css';
+    }
+
+</script>
+
+</html>

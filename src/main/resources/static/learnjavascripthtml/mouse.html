@@ -1,0 +1,37 @@
+<!--
+   1 鼠标事件
+   2 document.getElementById('id')
+   3 函数
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{
+            width:300px;
+            heigth:20px;
+            color: #5eb95e;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <input type="checkbox" onmouseover="mouseEntry()" onmouseout="mouseOut()">
+    <div id="div1">
+        为了您的信息安全... ...
+    </div>
+</body>
+
+<script>
+    function mouseEntry() {
+        document.getElementById('div1').style.display='block';
+    }
+
+    function mouseOut() {
+        document.getElementById('div1').style.display='none';
+    }
+</script>
+
+</html>

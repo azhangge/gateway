@@ -1,0 +1,42 @@
+<!--
+   1 变量（别名）
+   2 事件方法后面是否加分号不影响
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{
+            width:300px;
+            heigth:20px;
+            color: #009cda;
+        }
+    </style>
+</head>
+<body>
+    <input type="button" onmouseover="toGreen();" onmouseout="toRed()"/>
+    <div id="div1">
+        为了您的信息安全... ...
+    </div>
+</body>
+
+<script>
+//    函数定义
+    function toGreen() {
+        var div1 = document.getElementById('div1');
+        div1.style.color='green';
+    }
+
+    function toRed() {
+        var div1 = document.getElementById('div1');
+        div1.style.color='red';
+    }
+
+//    函数调用
+    toRed();
+
+</script>
+
+</html>
