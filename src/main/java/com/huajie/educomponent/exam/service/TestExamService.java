@@ -329,7 +329,7 @@ public class TestExamService {
      * 校验
      */
     private void examVerify(String examId){
-        ExamNoticeEntity exam = examNoticeJpaRepo.findOne(examId);
+        ExamNoticeEntity exam = examNoticeJpaRepo.getOne(examId);
         if (exam == null){
             throw new BusinessException("考试不存在");
         }

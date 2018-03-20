@@ -28,7 +28,7 @@ public class SysMngService {
      * @return
      */
     public SysInfoBo getSys(String sysId){
-        SysInfoEntity sysInfoEntity = sysInfoEntityJpaRepo.findOne(sysId);
+        SysInfoEntity sysInfoEntity = sysInfoEntityJpaRepo.getOne(sysId);
         return convertToBo(sysInfoEntity);
     }
 
@@ -46,7 +46,7 @@ public class SysMngService {
     }
 
     public Boolean isSysExist(String sysId) {
-        SysInfoEntity entity = sysInfoEntityJpaRepo.findOne(sysId);
+        SysInfoEntity entity = sysInfoEntityJpaRepo.getOne(sysId);
         if (entity != null || entity.isDeleted() == false) {
             return true;
         }

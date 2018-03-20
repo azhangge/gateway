@@ -74,7 +74,7 @@ public class UserBasicInfoService {
      * @return
      */
     public UserBasicInfoBo getUserBasicInfo(String userId) {
-        UserBasicInfoEntity userRealInfo = userBasicInfoJpaRepo.findOne(userId);
+        UserBasicInfoEntity userRealInfo = userBasicInfoJpaRepo.getOne(userId);
         return convertToBo(userRealInfo);
     }
 
@@ -86,7 +86,7 @@ public class UserBasicInfoService {
      */
     public Boolean modifyUserBasicInfo(String userId, UserBasicInfoUpdateBo userBasicInfoUpdateBo) {
 
-        UserBasicInfoEntity userRealInfo = userBasicInfoJpaRepo.findOne(userId);
+        UserBasicInfoEntity userRealInfo = userBasicInfoJpaRepo.getOne(userId);
         if (userRealInfo == null){
             throw new BusinessException("用户不存在");
         }
@@ -103,7 +103,7 @@ public class UserBasicInfoService {
      */
     public Boolean setUserBasicIcon(String userId, UserIconBo userIconBo) {
 
-        UserBasicInfoEntity userRealInfo = userBasicInfoJpaRepo.findOne(userId);
+        UserBasicInfoEntity userRealInfo = userBasicInfoJpaRepo.getOne(userId);
         if (userRealInfo == null) {
             throw new BusinessException("用户不存在");
         }

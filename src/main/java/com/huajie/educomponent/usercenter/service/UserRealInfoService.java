@@ -43,12 +43,12 @@ public class UserRealInfoService {
      */
     public UserRealInfoBo requestAuth(String userId, UserRealInfoCreateBo userRealInfoCreateBo){
 
-        UserBasicInfoEntity basicInfoEntity = userBasicInfoJpaRepo.findOne(userId);
+        UserBasicInfoEntity basicInfoEntity = userBasicInfoJpaRepo.getOne(userId);
         if (basicInfoEntity == null){
             throw new BusinessException("用户不存在");
         }
         if (!StringUtils.isEmpty(basicInfoEntity.getUserRealInfoId())){
-            UserRealInfoEntity userRealInfoEntity = userRealInfoJpaRepo.findOne(basicInfoEntity.getUserRealInfoId());
+            UserRealInfoEntity userRealInfoEntity = userRealInfoJpaRepo.getOne(basicInfoEntity.getUserRealInfoId());
             if (userRealInfoEntity != null && userRealInfoEntity.getApproveStatus() == 0){
                 throw new BusinessException("已申请、正在审核中");
             }else if (userRealInfoEntity != null && userRealInfoEntity.getApproveStatus() == 1){
@@ -78,7 +78,7 @@ public class UserRealInfoService {
      * @return
      */
     public UserRealInfoBo getUserRealInfo(String userId) {
-        UserBasicInfoEntity userBasicInfoEntity = userBasicInfoJpaRepo.findOne(userId);
+        UserBasicInfoEntity userBasicInfoEntity = userBasicInfoJpaRepo.getOne(userId);
         if (userBasicInfoEntity == null){
             throw new BusinessException("用户不存在");
         }
@@ -86,7 +86,7 @@ public class UserRealInfoService {
 //        if (StringUtils.isEmpty(userBasicInfoEntity.getUserRealInfoId())){
 //            throw new BusinessException("用户还未申请实名认证");
 //        }
-        UserRealInfoEntity userRealInfoEntity = userRealInfoJpaRepo.findOne(userBasicInfoEntity.getUserRealInfoId());
+        UserRealInfoEntity userRealInfoEntity = userRealInfoJpaRepo.getOne(userBasicInfoEntity.getUserRealInfoId());
 
 //        if (userRealInfoEntity == null){
 //            throw new BusinessException("用户还未实名认证");
@@ -98,7 +98,7 @@ public class UserRealInfoService {
      * 根据实名id获取实名
      */
     public UserRealInfoBo getRealById(String realInfoId){
-        UserRealInfoEntity userRealInfoEntity = userRealInfoJpaRepo.findOne(realInfoId);
+        UserRealInfoEntity userRealInfoEntity = userRealInfoJpaRepo.getOne(realInfoId);
         return convertToBo(userRealInfoEntity);
     }
 
@@ -132,7 +132,7 @@ public class UserRealInfoService {
         if (userRealApproveBo.getApproveStatus() != 1 || userRealApproveBo.getApproveStatus() != 2){
             throw new BusinessException("参数错误");
         }
-        UserRealInfoEntity userRealInfoEntity = userRealInfoJpaRepo.findOne(userRealApproveBo.getUserRealInfoId());
+        UserRealInfoEntity userRealInfoEntity = userRealInfoJpaRepo.getOne(userRealApproveBo.getUserRealInfoId());
         if (userRealInfoEntity == null){
             throw new BusinessException("不存在该实名申请");
         }

@@ -72,7 +72,7 @@ public class ExamEnrollService {
         for (ExamEnrollEntity examEnrollEntity:entityPageResult.getItems()){
             ExamEnrollBo examEnrollBo = new ExamEnrollBo();
             BeanUtils.copyProperties(examEnrollEntity, examEnrollBo);
-            ExamNoticeEntity exam =  examNoticeJpaRepo.findOne(examEnrollEntity.getExamId());
+            ExamNoticeEntity exam =  examNoticeJpaRepo.getOne(examEnrollEntity.getExamId());
             BeanUtils.copyProperties(exam, examEnrollBo);
             UserBasicInfoBo user = userBasicInfoService.getUserBasicInfo(examEnrollEntity.getUserId());
             examEnrollBo.setUserName(user.getNickName());
@@ -91,7 +91,7 @@ public class ExamEnrollService {
     public ExamUserEnrollDetailBo getExamUserEnroll(String examId, String userId, int pageIndex, int pageSize){
         PageResult<ExamEnrollEntity> entityPageResult = examEnrollJpaRepo.search(examId, userId, pageIndex, pageSize);
         ExamUserEnrollDetailBo result = new ExamUserEnrollDetailBo();
-        ExamNoticeEntity exam = examNoticeJpaRepo.findOne(examId);
+        ExamNoticeEntity exam = examNoticeJpaRepo.getOne(examId);
         BeanUtils.copyProperties(exam, result);
         List<ExamUserEnrollBo> enrollBos = new ArrayList<ExamUserEnrollBo>();
         for (ExamEnrollEntity examEnrollEntity:entityPageResult.getItems()){
@@ -120,7 +120,7 @@ public class ExamEnrollService {
     }
 
     private void setExamEnrollNum(String examId, int enrollType){
-        ExamNoticeEntity examNoticeEntity = examNoticeJpaRepo.findOne(examId);
+        ExamNoticeEntity examNoticeEntity = examNoticeJpaRepo.getOne(examId);
         examNoticeEntity.setTotalJoinNum(examNoticeEntity.getTotalJoinNum() + enrollType);
         examNoticeJpaRepo.save(examNoticeEntity);
     }

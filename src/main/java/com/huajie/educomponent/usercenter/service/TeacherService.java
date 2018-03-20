@@ -61,7 +61,7 @@ public class TeacherService {
             briefEntity.setApproveStatus(1);
         } else {
             briefEntity.updateModifyInfo(userId);
-            briefEntity = teacherBriefJpaRepo.findOne(teacherBriefBo.getTeacherId());
+            briefEntity = teacherBriefJpaRepo.getOne(teacherBriefBo.getTeacherId());
         }
         TeacherCreateBo teacherCreateBo = new TeacherCreateBo();
         BeanUtils.copyProperties(teacherBriefBo, teacherCreateBo);
@@ -92,7 +92,7 @@ public class TeacherService {
         if (teacherId == null) {
             teacherBrief = teacherBriefJpaRepo.findByUserRealInfoId(userId);
         } else {
-            teacherBrief = teacherBriefJpaRepo.findOne(teacherId);
+            teacherBrief = teacherBriefJpaRepo.getOne(teacherId);
         }
         if (teacherBrief == null) {
             throw new BusinessException("讲师信息不存在");
@@ -102,12 +102,12 @@ public class TeacherService {
         TeacherBriefBo teacherBriefBo = convertToTeacherBriefBo(teacherBrief);
         BeanUtils.copyProperties(teacherBriefBo, result);
         //基本信息
-        UserBasicInfoEntity userBasic = userBasicInfoJpaRepo.findOne(userId);
+        UserBasicInfoEntity userBasic = userBasicInfoJpaRepo.getOne(userId);
         result.setGender(userBasic.getGender());
         //实名信息
         UserRealInfoEntity userRealInfo = null;
         if (!StringUtils.isEmpty(userBasic.getUserRealInfoId())) {
-            userRealInfo = userRealInfoJpaRepo.findOne(userBasic.getUserRealInfoId());
+            userRealInfo = userRealInfoJpaRepo.getOne(userBasic.getUserRealInfoId());
             result.setUserRealInfoId(userRealInfo.getId());
         }
         if (userRealInfo != null && !StringUtils.isEmpty(userRealInfo.getRealName())) {
@@ -152,7 +152,7 @@ public class TeacherService {
             antecedentsEntity.updateModifyInfo(userId);
         } else {
             antecedentsEntity.updateModifyInfo(userId);
-            antecedentsEntity = teacherAntecedentsJpaRepo.findOne(teacherAntecedentBo.getAntecedentId());
+            antecedentsEntity = teacherAntecedentsJpaRepo.getOne(teacherAntecedentBo.getAntecedentId());
         }
         BeanUtils.copyProperties(teacherAntecedentBo, antecedentsEntity);
         TeacherAntecedentsEntity result = teacherAntecedentsJpaRepo.save(antecedentsEntity);
@@ -166,11 +166,11 @@ public class TeacherService {
      */
     public void deleteAntecedents(String userId, String antecedentId) {
 
-        TeacherAntecedentsEntity antecedentsEntity = teacherAntecedentsJpaRepo.findById(antecedentId);
+        TeacherAntecedentsEntity antecedentsEntity = teacherAntecedentsJpaRepo.getOne(antecedentId);
         if (antecedentsEntity == null) {
             throw new BusinessException("履历不存在");
         }
-        TeacherBriefEntity briefEntity = teacherBriefJpaRepo.findOne(antecedentsEntity.getTeacherId());
+        TeacherBriefEntity briefEntity = teacherBriefJpaRepo.getOne(antecedentsEntity.getTeacherId());
         if (!briefEntity.getUserId().equals(userId)) {
             throw new BusinessException("无权限删除");
         }
@@ -225,7 +225,7 @@ public class TeacherService {
      * @param teacherApproveBo
      */
     public void teacherApprove(String userId, TeacherApproveBo teacherApproveBo){
-        TeacherBriefEntity teacherBriefEntity = teacherBriefJpaRepo.findOne(teacherApproveBo.getTeacherId());
+        TeacherBriefEntity teacherBriefEntity = teacherBriefJpaRepo.getOne(teacherApproveBo.getTeacherId());
         if (teacherBriefEntity == null || teacherBriefEntity.getApproveStatus() != 0){
             throw new BusinessException("该用户未申请");
         }
@@ -248,11 +248,11 @@ public class TeacherService {
      * @param userId
      */
     private void verify(String userId){
-        UserBasicInfoEntity userBasicInfoEntity = userBasicInfoJpaRepo.findOne(userId);
+        UserBasicInfoEntity userBasicInfoEntity = userBasicInfoJpaRepo.getOne(userId);
         if (userBasicInfoEntity == null){
             throw new BusinessException("用户不存在");
         }
-        UserRealInfoEntity userRealInfoEntity = userRealInfoJpaRepo.findOne(userBasicInfoEntity.getUserRealInfoId());
+        UserRealInfoEntity userRealInfoEntity = userRealInfoJpaRepo.getOne(userBasicInfoEntity.getUserRealInfoId());
         if (userRealInfoEntity == null){
             throw new BusinessException("用户还未实名认证");
         }
@@ -262,7 +262,7 @@ public class TeacherService {
     }
 
     public TeacherBriefBo getTeacherById(String teacherId) {
-        TeacherBriefEntity teacherBriefEntity = teacherBriefJpaRepo.findOne(teacherId);
+        TeacherBriefEntity teacherBriefEntity = teacherBriefJpaRepo.getOne(teacherId);
         return convertToTeacherBriefBo(teacherBriefEntity);
     }
 
@@ -294,13 +294,13 @@ public class TeacherService {
         BeanUtils.copyProperties(briefEntity, teacherBriefBo);
         teacherBriefBo.setTeacherId(briefEntity.getId());
         if(!StringUtils.isEmpty(briefEntity.getUserRealInfoId())){
-            UserRealInfoEntity userRealInfo = userRealInfoJpaRepo.findOne(briefEntity.getUserRealInfoId());
+            UserRealInfoEntity userRealInfo = userRealInfoJpaRepo.getOne(briefEntity.getUserRealInfoId());
             if (userRealInfo != null && !StringUtils.isEmpty(userRealInfo.getRealName())) {
                 teacherBriefBo.setRealName(userRealInfo.getRealName());
             }
         }
         if (!StringUtils.isEmpty(briefEntity.getUserId())) {
-            UserBasicInfoEntity userBasicInfo = userBasicInfoJpaRepo.findOne(briefEntity.getUserId());
+            UserBasicInfoEntity userBasicInfo = userBasicInfoJpaRepo.getOne(briefEntity.getUserId());
             if (userBasicInfo.getGender() != null) {
                 teacherBriefBo.setGender(userBasicInfo.getGender());
             }

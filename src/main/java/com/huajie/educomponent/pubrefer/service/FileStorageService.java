@@ -129,7 +129,7 @@ public class FileStorageService {
      * @return
      */
     public FileStorageBo getStore(String fileId){
-        FileStorageEntity result = fileStorageJpaRepo.findOne(fileId);
+        FileStorageEntity result = fileStorageJpaRepo.getOne(fileId);
         if (result == null){
             return null;
         }
@@ -147,7 +147,7 @@ public class FileStorageService {
      * @return
      */
     public Integer getVideoLen(String fileId){
-        FileStorageEntity fileStorageEntity = fileStorageJpaRepo.findById(fileId);
+        FileStorageEntity fileStorageEntity = fileStorageJpaRepo.getOne(fileId);
         if (fileStorageEntity == null){
             return 0;
         }
@@ -158,13 +158,13 @@ public class FileStorageService {
     }
 
     public void updateFileRefer(String fileId, String refId){
-        FileStorageEntity entity = fileStorageJpaRepo.findById(fileId);
+        FileStorageEntity entity = fileStorageJpaRepo.getOne(fileId);
         entity.setOwnerId(refId);
         fileStorageJpaRepo.save(entity);
     }
 
     public void deleteFile(String fileId) {
-        FileStorageEntity entityList = fileStorageJpaRepo.findById(fileId);
+        FileStorageEntity entityList = fileStorageJpaRepo.getOne(fileId);
         delete(entityList);
     }
 

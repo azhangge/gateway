@@ -13,8 +13,7 @@ import java.util.List;
  */
 @Repository
 public interface FileStorageJpaRepo extends JpaRepository<FileStorageEntity, String> {
-    @Query("select e from FileStorageEntity e where e.id=?1 and e.deleted=0")
-    FileStorageEntity findById(String id);
+
 
     @Query("select e from FileStorageEntity e where e.ownerId=null and e.deleted=0")
     List<FileStorageEntity> findIdleFiles();

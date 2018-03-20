@@ -48,7 +48,7 @@ public class QuestionSetInsService {
      * @throws Exception
      */
     public QuestionSetInsBo get(String insId) {
-        QuestionSetInsEntity questionSetInsEntity = questionSetInsJpaRepo.findOne(insId);
+        QuestionSetInsEntity questionSetInsEntity = questionSetInsJpaRepo.getOne(insId);
         if (questionSetInsEntity == null){
             throw new BusinessException("不存在");
         }

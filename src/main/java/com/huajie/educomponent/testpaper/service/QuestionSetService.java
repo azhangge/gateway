@@ -70,7 +70,7 @@ public class QuestionSetService {
         if (createBo.getQuestionSetId().contains(EnvConstants.TEMP_ID_PREFIX)) {
             entity.updateCreateInfo(userId);
         } else {
-            entity = questionSetJpaRepo.findOne(createBo.getQuestionSetId());
+            entity = questionSetJpaRepo.getOne(createBo.getQuestionSetId());
         }
         BeanUtils.copyProperties(createBo, entity);
         entity.updateModifyInfo(userId);
@@ -95,7 +95,7 @@ public class QuestionSetService {
      */
     public QuestionSetBo getDetails(String userId, String questionSetId) {
 
-        QuestionSetEntity questionSet = questionSetJpaRepo.findById(questionSetId);
+        QuestionSetEntity questionSet = questionSetJpaRepo.getOne(questionSetId);
         if (questionSet == null) {
             throw new BusinessException("不存在");
         }
@@ -195,7 +195,7 @@ public class QuestionSetService {
      * @return
      */
     public QuestionSetBriefBo getQuestionSetById(String questionSetId){
-        return convertToBo(questionSetJpaRepo.findById(questionSetId));
+        return convertToBo(questionSetJpaRepo.getOne(questionSetId));
     }
 
     /**
@@ -204,7 +204,7 @@ public class QuestionSetService {
      * @return
      */
     public String questionSetInstance(String questionSetId){
-        QuestionSetEntity questionSetEntity = questionSetJpaRepo.findById(questionSetId);
+        QuestionSetEntity questionSetEntity = questionSetJpaRepo.getOne(questionSetId);
         QuestionInstanceBo questionInstanceBo = new QuestionInstanceBo();
         BeanUtils.copyProperties(questionSetEntity, questionInstanceBo);
         QuestionSetEntity questionSetIns = new QuestionSetEntity();
@@ -291,7 +291,7 @@ public class QuestionSetService {
         if (StringUtils.isEmpty(questionInBo.getQuestionInId())) {
             questionIn.updateCreateInfo(userId);
         } else {
-            questionIn = questionInJpaRepo.findOne(questionInBo.getQuestionInId());
+            questionIn = questionInJpaRepo.getOne(questionInBo.getQuestionInId());
             if (questionIn == null) {
                 throw new BusinessException("不存在");
             }
@@ -351,7 +351,7 @@ public class QuestionSetService {
                 speciesEntity.updateCreateInfo(userId);
                 speciesBo.setQuestionSetId(createBo.getQuestionSetId());
             } else {
-                speciesEntity = questionSpeciesJpaRepo.findOne(speciesBo.getSpeciesId());
+                speciesEntity = questionSpeciesJpaRepo.getOne(speciesBo.getSpeciesId());
                 if (speciesEntity == null) {
                     throw new BusinessException("不存在");
                 }

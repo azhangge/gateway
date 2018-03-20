@@ -12,8 +12,7 @@ import java.util.List;
  */
 @Repository
 public interface CourseCategoryJpaRepo extends JpaRepository<CourseCategoryEntity, String> {
-    @Query("select e from CourseCategoryEntity e where e.id=?1 and e.deleted=0")
-    CourseCategoryEntity findById(String id);
+
 
     @Query("select e from CourseCategoryEntity e where e.code=?1 and e.deleted=0")
     CourseCategoryEntity findByCode(String code);

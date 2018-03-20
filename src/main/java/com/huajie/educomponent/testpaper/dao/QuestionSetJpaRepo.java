@@ -17,6 +17,5 @@ public interface QuestionSetJpaRepo extends JpaRepository<QuestionSetEntity, Str
 
     PageResult<QuestionSetEntity> listPages(String userId, Boolean isPublic, String search, Integer type, Boolean self, Integer orderBy, int pageIndex, int pageSize);
 
-    @Query("from QuestionSetEntity where id=?1 and deleted=0")
-    QuestionSetEntity findById(String questionSetId);
+
 }

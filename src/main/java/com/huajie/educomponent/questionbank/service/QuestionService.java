@@ -41,7 +41,7 @@ public class QuestionService {
         if (StringUtils.isEmpty(questionBo.getQuestionId())) {
             questionEntity.updateCreateInfo(userId);
         } else {
-            questionEntity = questionRepo.findOne(questionBo.getQuestionId());
+            questionEntity = questionRepo.getOne(questionBo.getQuestionId());
             if (questionEntity == null) {
                 throw new BusinessException("试题不存在");
             }
@@ -61,7 +61,7 @@ public class QuestionService {
      */
     public QuestionBo getOne(String questionId) {
 
-        QuestionEntity entity = questionRepo.findOne(questionId);
+        QuestionEntity entity = questionRepo.getOne(questionId);
         if (entity == null) {
             throw new BusinessException("试题不存在");
         }
@@ -95,7 +95,7 @@ public class QuestionService {
      * @param questionId
      */
     public void delete(String questionId) {
-        QuestionEntity entity = questionRepo.findOne(questionId);
+        QuestionEntity entity = questionRepo.getOne(questionId);
         if (entity == null) {
             throw new BusinessException("试题不存在");
         }

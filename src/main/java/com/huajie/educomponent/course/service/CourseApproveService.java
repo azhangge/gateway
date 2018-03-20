@@ -45,7 +45,7 @@ public class CourseApproveService {
         if (approveBo.getOperate()!=null && (approveBo.getOperate() < CourseApproveStatusType.APPROVING.getValue() || approveBo.getOperate() > CourseApproveStatusType.REFUSED.getValue())) {
             throw new BusinessException(BaseRetMessage.ARGUMENT_ERROR.getValue());
         }
-        CourseBasicEntity entity = courseBasicJpaRepo.findById(approveBo.getCourseId());
+        CourseBasicEntity entity = courseBasicJpaRepo.getOne(approveBo.getCourseId());
         if (entity.getApproveStatus().equals(approveBo.getOperate())){
             throw new BusinessException(BaseRetMessage.REPEAT_OPERATION.getValue());
         }
@@ -108,7 +108,7 @@ public class CourseApproveService {
         for (CourseApproveHisEntity course :approveCourses.getItems()) {
             CourseApproveHisBo courseApproveHisBo = new CourseApproveHisBo();
             BeanUtils.copyProperties(course, courseApproveHisBo);
-            CourseBasicEntity courseBasicEntity = courseBasicJpaRepo.findOne(course.getCourseId());
+            CourseBasicEntity courseBasicEntity = courseBasicJpaRepo.getOne(course.getCourseId());
             courseApproveHisBo.setCourseName(courseBasicEntity.getCourseName());
             courseApproveHisBo.setCourseApproveStatus(course.getOperate());
             courseBriefBos.add(courseApproveHisBo);
@@ -154,7 +154,7 @@ public class CourseApproveService {
      * @return
      */
     public boolean submitApprove(String courseId) {
-        CourseBasicEntity entity = courseBasicJpaRepo.findById(courseId);
+        CourseBasicEntity entity = courseBasicJpaRepo.getOne(courseId);
         entity.setApproveStatus(CourseApproveStatusType.REQUEST.getValue());
         courseBasicJpaRepo.save(entity);
         return true;

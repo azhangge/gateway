@@ -87,7 +87,7 @@ public class AccountService {
             return true;
         }
 
-        AccountTokenEntity accountToken = accountTokenJpaRepo.findOne(token);
+        AccountTokenEntity accountToken = accountTokenJpaRepo.getOne(token);
         if (accountToken == null) {
             return true;
             //throw new RuntimeException(BaseRetMessage.ARGUMENT_ERROR.getValue());
@@ -325,8 +325,8 @@ public class AccountService {
      * @return
      */
     public AccountBo getAccount(String token) {
-        AccountTokenEntity accountToken = accountTokenJpaRepo.findOne(token);
-        AccountEntity accountEntity = accountJpaRepo.findOne(accountToken.getAccountId());
+        AccountTokenEntity accountToken = accountTokenJpaRepo.getOne(token);
+        AccountEntity accountEntity = accountJpaRepo.getOne(accountToken.getAccountId());
         return convertToAccountBo(accountEntity);
     }
 

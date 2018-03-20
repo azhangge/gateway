@@ -62,7 +62,7 @@ public class ExamNoticeService {
         if (StringUtils.isEmpty(noticeCreateBo.getExamId())){
             examNoticeEntity.updateCreateInfo(userId);
         }else {
-            examNoticeEntity = examNoticeJpaRepo.findOne(noticeCreateBo.getExamId());
+            examNoticeEntity = examNoticeJpaRepo.getOne(noticeCreateBo.getExamId());
             if (Boolean.TRUE.equals(examNoticeEntity.getIsPublish())){
                 throw new BusinessException("已经发布，不允许修改");
             }
@@ -92,7 +92,7 @@ public class ExamNoticeService {
      * @return
      */
     public void pushNotice(String userId, String examId){
-        ExamNoticeEntity examNoticeEntity = examNoticeJpaRepo.findOne(examId);
+        ExamNoticeEntity examNoticeEntity = examNoticeJpaRepo.getOne(examId);
         if (examNoticeEntity == null){
             throw new BusinessException("考试不存在");
         }
@@ -155,7 +155,7 @@ public class ExamNoticeService {
      * @return
      */
     public ExamNoticeBo getDetails(String userId, String examId){
-        ExamNoticeEntity examNoticeEntity = examNoticeJpaRepo.findOne(examId);
+        ExamNoticeEntity examNoticeEntity = examNoticeJpaRepo.getOne(examId);
         if (examNoticeEntity == null){
             throw new BusinessException("考试不存在");
         }
@@ -180,7 +180,7 @@ public class ExamNoticeService {
      * @param examId
      */
     public void delete(String examId){
-        ExamNoticeEntity examNoticeEntity = examNoticeJpaRepo.findOne(examId);
+        ExamNoticeEntity examNoticeEntity = examNoticeJpaRepo.getOne(examId);
         if (examNoticeEntity == null){
             throw new BusinessException("考试不存在");
         }

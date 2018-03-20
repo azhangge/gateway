@@ -12,8 +12,7 @@ import java.util.List;
  */
 @Repository
 public interface RoleJpaRepo extends JpaRepository<RoleEntity, String> {
-    @Query("select e from RoleEntity e where e.id=?1 and e.deleted=0")
-    RoleEntity findById(String id);
+
 
     @Query("select e from RoleEntity e where e.orgId=?1 and e.deleted=0")
     List<RoleEntity> findByOrgId(String orgId);

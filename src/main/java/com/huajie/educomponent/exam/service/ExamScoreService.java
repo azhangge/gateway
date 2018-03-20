@@ -49,7 +49,7 @@ public class ExamScoreService {
                 setScoreBriefBo(userPaperEntity, examScores);
             }
             examUserScoreBo.setExamId(examUserPaperEntity.getExamId());
-            ExamNoticeEntity examNoticeEntity = examNoticeJpaRepo.findOne(examUserPaperEntity.getExamId());
+            ExamNoticeEntity examNoticeEntity = examNoticeJpaRepo.getOne(examUserPaperEntity.getExamId());
             examUserScoreBo.setExamName(examNoticeEntity.getExamName());
             examUserScoreBo.setExamScores(examScores);
             scoreBos.add(examUserScoreBo);
@@ -103,7 +103,7 @@ public class ExamScoreService {
      * @return
      */
     private ExamScoreBo convert(ExamUserPaperEntity examUserPaperEntity){
-        ExamNoticeEntity exam = examNoticeJpaRepo.findOne(examUserPaperEntity.getExamId());
+        ExamNoticeEntity exam = examNoticeJpaRepo.getOne(examUserPaperEntity.getExamId());
         UserBasicInfoBo user = userBasicInfoService.getUserBasicInfo(examUserPaperEntity.getUserId());
         ExamScoreBo examScoreBo = new ExamScoreBo();
         examScoreBo.setExamId(examUserPaperEntity.getExamId());

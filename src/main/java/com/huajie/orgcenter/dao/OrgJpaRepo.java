@@ -13,6 +13,5 @@ import java.util.List;
  */
 @Repository
 public interface OrgJpaRepo extends JpaRepository<OrgEntity, String> {
-    @Query("select e from RoleEntity e where e.id=?1 and e.deleted=0")
-    RoleEntity findById(String id);
+
 }

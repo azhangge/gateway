@@ -12,8 +12,7 @@ import java.util.List;
  */
 @Repository
 public interface GroupJpaRepo extends JpaRepository<GroupEntity, String> {
-    @Query("select e from GroupEntity e where e.id=?1 and e.deleted=0")
-    GroupEntity findById(String id);
+
 
     @Query("select e from GroupEntity e where e.orgId=?1 and e.deleted=0")
     List<GroupEntity> findByOrgId(String orgId);

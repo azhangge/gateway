@@ -18,6 +18,9 @@ public interface AdPromptJpaRepo extends JpaRepository<AdPromptEntity, String>{
     @Query("from AdPromptEntity where isValid =?1 and deleted = 0 order by adIndex")
     List<AdPromptEntity> listByValide(Boolean isValid);
 
+    @Override
+    AdPromptEntity getOne(String s);
+
     @Query("from AdPromptEntity where deleted = 0 order by adIndex")
     List<AdPromptEntity> list();
 

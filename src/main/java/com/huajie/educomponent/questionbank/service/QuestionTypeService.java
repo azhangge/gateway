@@ -35,7 +35,7 @@ public class QuestionTypeService {
             questionTypeEntity.setCreatorId(userId);
             questionTypeEntity.setCreateDate(new Date());
         }else {
-            questionTypeEntity = questionTypeJpaRepo.findOne(questionTypeBo.getQuestionTypeId());
+            questionTypeEntity = questionTypeJpaRepo.getOne(questionTypeBo.getQuestionTypeId());
             if (questionTypeEntity == null){
                 throw new Exception(BaseRetMessage.NOT_FIND.getValue());
             }
@@ -64,7 +64,7 @@ public class QuestionTypeService {
      */
     public void delete(String questionTypeId) throws Exception {
 
-        QuestionTypeEntity entity = questionTypeJpaRepo.findOne(questionTypeId);
+        QuestionTypeEntity entity = questionTypeJpaRepo.getOne(questionTypeId);
         if (entity == null){
             throw new Exception("试题不存在");
         }

@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CourseExerciseJpaRepo extends JpaRepository<CourseExerciseEntity, String>{
-    @Query("select e from CourseExerciseEntity e where e.id=?1 and e.deleted=0")
-    CourseExerciseEntity findById(String id);
+
 }

@@ -13,8 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CourseApproveHisJpaRepo extends JpaRepository<CourseApproveHisEntity, String> {
 
-    @Query("select e from CourseApproveHisEntity e where e.id=?1 and e.deleted=0")
-    CourseApproveHisEntity findById(String id);
+
 
     @Query("select e from CourseApproveHisEntity e where e.courseId=?1 and e.deleted=0")
     CourseApproveHisEntity findByCourseId(String id);

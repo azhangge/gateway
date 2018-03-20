@@ -12,8 +12,7 @@ import java.util.List;
 @Repository
 public interface CourseChapterJpaRepo extends JpaRepository<CourseChapterEntity, String> {
 
-    @Query("from CourseChapterEntity e where e.id=?1 and e.deleted=0")
-    CourseChapterEntity findById(String id);
+
 
     @Query("from CourseChapterEntity e where e.courseId=?1 and e.deleted=0")
     List<CourseChapterEntity> findByCourseId(String courseId);

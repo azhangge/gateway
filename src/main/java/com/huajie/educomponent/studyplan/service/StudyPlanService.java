@@ -44,7 +44,7 @@ public class StudyPlanService {
         if (StringUtils.isEmpty(studyPlanCreateBo.getPlanId())){
             studyPlanBasicEntity.updateCreateInfo(userId);
         }else {
-            studyPlanBasicEntity = studyPlanBasicJpaRepo.findOne(studyPlanCreateBo.getPlanId());
+            studyPlanBasicEntity = studyPlanBasicJpaRepo.getOne(studyPlanCreateBo.getPlanId());
             //学习计划已发布，不允许修改
             if (studyPlanBasicEntity.getStartTime().before(new Date())){
                 throw new BusinessException("已经发布，不允许修改");
@@ -151,7 +151,7 @@ public class StudyPlanService {
      */
     public void deleteStudyPlan(String userId, String planId) {
 
-        StudyPlanBasicEntity studyPlanBasicEntity = studyPlanBasicJpaRepo.findOne(planId);
+        StudyPlanBasicEntity studyPlanBasicEntity = studyPlanBasicJpaRepo.getOne(planId);
         if (studyPlanBasicEntity == null) {
             throw new BusinessException("学习计划不存在！");
         }

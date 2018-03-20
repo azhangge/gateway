@@ -27,8 +27,7 @@ public interface AccountJpaRepo extends JpaRepository<AccountEntity, String> {
     @Query("select e from AccountEntity e where e.username=?1 and e.sysId=?2 and e.deleted=0")
     AccountEntity findByUsernameAndSysId(String userName, String sysId);
 
-    @Query("select e from AccountEntity e where e.id=?1 and e.deleted=0")
-    AccountEntity findById(String id);
+
 
     @Query("select e from AccountEntity e where e.userId=?1 and e.deleted=0")
     AccountEntity findByUserId(String userId);

@@ -62,7 +62,7 @@ public class AdPromptService {
 
         AdPromptEntity adPromptEntity = new AdPromptEntity();
         if (StringUtils.isNotBlank(adPromptBo.getAdPromptId())) {
-            adPromptEntity = adPromptJpaRepo.findOne(adPromptBo.getAdPromptId());
+            adPromptEntity = adPromptJpaRepo.getOne(adPromptBo.getAdPromptId());
         }
         BeanUtils.copyProperties(adPromptBo, adPromptEntity);
         AdPromptEntity result = adPromptJpaRepo.save(adPromptEntity);
@@ -151,7 +151,7 @@ public class AdPromptService {
      * @return
      */
     public void delete(String adPromptId) throws Exception {
-        AdPromptEntity entity = adPromptJpaRepo.findOne(adPromptId);
+        AdPromptEntity entity = adPromptJpaRepo.getOne(adPromptId);
         if (entity == null){
             throw new Exception("轮播图资源不存在");
         }
@@ -213,7 +213,7 @@ public class AdPromptService {
         //BeanUtils.copyProperties(adPromptEntity,adPromptBo);
         adPromptBo = convertToBo(adPromptEntity);
         if(adPromptEntity.getResourceType() == ResourceType.COURSE.getValue()) {
-            CourseBasicEntity courseBasicEntity = courseBasicJpaRepo.findById(adPromptEntity.getResourceId());
+            CourseBasicEntity courseBasicEntity = courseBasicJpaRepo.getOne(adPromptEntity.getResourceId());
             if(courseBasicEntity != null) {
                 adPromptBo.setResourceName(courseBasicEntity.getCourseName());
             }

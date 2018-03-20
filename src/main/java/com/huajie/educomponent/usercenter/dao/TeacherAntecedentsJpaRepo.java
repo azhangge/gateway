@@ -16,6 +16,5 @@ public interface TeacherAntecedentsJpaRepo extends JpaRepository<TeacherAntecede
     @Query("from TeacherAntecedentsEntity t where t.teacherId =?1 and t.deleted = 0 order by t.startTime")
     List<TeacherAntecedentsEntity> findByTeacherBriefId(String teacherBriefId);
 
-    @Query("from TeacherAntecedentsEntity t where t.id =?1 and t.deleted = 0")
-    TeacherAntecedentsEntity findById(String id);
+
 }

@@ -41,7 +41,7 @@ public class CourseCategoryService {
      * @return
      */
     public CourseCategoryEntity findById(String id) {
-        return courseCategoryJpaRepo.findById(id);
+        return courseCategoryJpaRepo.getOne(id);
     }
 
     /**
@@ -50,7 +50,7 @@ public class CourseCategoryService {
      * @return
      */
     public CourseCategoryEntity findByCode(String code) {
-        return courseCategoryJpaRepo.findById(code);
+        return courseCategoryJpaRepo.getOne(code);
     }
 
     /**
@@ -66,7 +66,7 @@ public class CourseCategoryService {
             entity.setCreatorId(userId);
             entity.setCreateDate(now);
         } else {
-            entity = courseCategoryJpaRepo.findById(nodeBo.getCourseCategoryId());
+            entity = courseCategoryJpaRepo.getOne(nodeBo.getCourseCategoryId());
         }
 
         entity.setModifierId(userId);
@@ -205,7 +205,7 @@ public class CourseCategoryService {
                 throw new BusinessException("该主类下子类已使用、不能删除");
             }
             //未使用，主类下子类都删除
-            CourseCategoryEntity courseCategory = courseCategoryJpaRepo.findOne(CourseCategoryTreeNodeBo.getCourseCategoryId());
+            CourseCategoryEntity courseCategory = courseCategoryJpaRepo.getOne(CourseCategoryTreeNodeBo.getCourseCategoryId());
             courseCategory.setDeleted(true);
             courseCategoryJpaRepo.save(courseCategory);
         }
@@ -266,7 +266,7 @@ public class CourseCategoryService {
      */
     public CourseCategoryTreeNodeBo getSubCategory(String mainCategoryId){
         List<CourseCategoryEntity> sub = courseCategoryJpaRepo.findAllByMain(mainCategoryId);
-        CourseCategoryEntity main = courseCategoryJpaRepo.findOne(mainCategoryId);
+        CourseCategoryEntity main = courseCategoryJpaRepo.getOne(mainCategoryId);
         CourseCategoryTreeNodeBo result = convertToTreeBo(main);
         List<CourseCategoryTreeNodeBo> children = new ArrayList<CourseCategoryTreeNodeBo>();
         for (CourseCategoryEntity entity:sub){
@@ -277,7 +277,7 @@ public class CourseCategoryService {
     }
 
     private void getCategory(String categoryId, List<CourseCategoryNodeBo> category){
-        CourseCategoryEntity categoryCourse = courseCategoryJpaRepo.findById(categoryId);
+        CourseCategoryEntity categoryCourse = courseCategoryJpaRepo.getOne(categoryId);
         if (categoryCourse == null){
             return;
         }

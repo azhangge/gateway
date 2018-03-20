@@ -91,7 +91,7 @@ public class CourseCommentService {
      * @throws Exception
      */
     private void isCourseExit(String courseId) throws RuntimeException {
-        CourseBasicEntity courseBasicEntity = courseBasicJpaRepo.findOne(courseId);
+        CourseBasicEntity courseBasicEntity = courseBasicJpaRepo.getOne(courseId);
         if (courseBasicEntity == null){
             throw new RuntimeException(BaseRetMessage.COURSE_NOT_EXIST.getValue());
         }
