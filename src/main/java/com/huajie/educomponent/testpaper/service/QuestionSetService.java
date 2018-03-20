@@ -150,7 +150,7 @@ public class QuestionSetService {
      * @param questionSetId
      */
     public void delete(String questionSetId) {
-        QuestionSetEntity questionSetEntity = questionSetJpaRepo.findOne(questionSetId);
+        QuestionSetEntity questionSetEntity = questionSetJpaRepo.getOne(questionSetId);
         if (questionSetEntity == null){
             throw new BusinessException("不存在");
         }
@@ -263,7 +263,7 @@ public class QuestionSetService {
         List<QuestionInCreateBo> questions = new ArrayList<QuestionInCreateBo>();
         //统一将之前的题目删掉，重新绑定
         List<QuestionInEntity> questionInEntities = questionInJpaRepo.findByQuestionSetId(createBo.getQuestionSetId());
-        questionInJpaRepo.delete(questionInEntities);
+        questionInJpaRepo.deleteAll(questionInEntities);
         if (createBo.getType() == 1){
             saveTest(userId, createBo, questions);
         }else if (createBo.getType() == 2){

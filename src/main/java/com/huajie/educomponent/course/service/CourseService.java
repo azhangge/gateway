@@ -269,7 +269,7 @@ public class CourseService {
      */
     public void deleteChapter(String userId, String chapterId) {
 
-        CourseChapterEntity chapterEntity = courseChapterJpaRepo.findById(chapterId);
+        CourseChapterEntity chapterEntity = courseChapterJpaRepo.getOne(chapterId);
         if (chapterEntity == null) {
             throw new BusinessException("章节不存在！");
         }
@@ -541,7 +541,7 @@ public class CourseService {
             courseChapterEntity = new CourseChapterEntity();
             courseChapterEntity.updateCreateInfo(userId);
         } else {
-            courseChapterEntity = courseChapterJpaRepo.findById(chapterBo.getChapterId());
+            courseChapterEntity = courseChapterJpaRepo.getOne(chapterBo.getChapterId());
             if (courseChapterEntity == null) {
                 throw new BusinessException("章节不存在");
             }

@@ -39,8 +39,8 @@ public class UserAnswerService {
         for (UserAnswerEntity userAnswerEntity:userAnswers){
             score = score + userAnswerEntity.getReal_score();
         }
-        QuestionSetInsEntity questionSetIns = questionSetInsJpaRepo.findOne(questionSetInsId);
-        QuestionSetEntity questionSet = questionSetJpaRepo.findById(questionSetIns.getQuestionSetId());
+        QuestionSetInsEntity questionSetIns = questionSetInsJpaRepo.getOne(questionSetInsId);
+        QuestionSetEntity questionSet = questionSetJpaRepo.getOne(questionSetIns.getQuestionSetId());
         if (score >= questionSet.getTotalScore()){//修改
             isPass = Boolean.TRUE;
         }

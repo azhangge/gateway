@@ -92,7 +92,7 @@ public class AccountService {
             return true;
             //throw new RuntimeException(BaseRetMessage.ARGUMENT_ERROR.getValue());
         }
-        accountTokenJpaRepo.delete(token);
+        accountTokenJpaRepo.deleteById(token);
         logService.saveAccountLog(accountToken.getAccountId(), AccountOpType.LOGOUT.getValue());
         return true;
     }

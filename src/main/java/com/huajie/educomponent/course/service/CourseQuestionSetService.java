@@ -24,7 +24,7 @@ public class CourseQuestionSetService {
 
     public void save(String courseId, CourseQuestionSetBo courseQuestionSetBo){
         List<CourseQuestionSetEntity> courseQuestionSetEntities = courseQuestionSetJpaRepo.findByCourseId(courseId);
-        courseQuestionSetJpaRepo.delete(courseQuestionSetEntities);
+        courseQuestionSetJpaRepo.deleteAll(courseQuestionSetEntities);
         List<CourseQuestionSetEntity> entities = new ArrayList<>();
         for (String questionSetId : courseQuestionSetBo.getQuestionSetIds()){
             CourseQuestionSetEntity courseQuestionSetEntity = new CourseQuestionSetEntity();
@@ -33,7 +33,7 @@ public class CourseQuestionSetService {
             courseQuestionSetEntity.setCreateTime(new Date());
             entities.add(courseQuestionSetEntity);
         }
-        courseQuestionSetJpaRepo.save(entities);
+        courseQuestionSetJpaRepo.saveAll(entities);
     }
 
     public List<QuestionSetBriefBo> getCourseQuestionSet(String courseId){

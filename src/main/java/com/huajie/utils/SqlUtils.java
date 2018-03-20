@@ -27,7 +27,6 @@ public class SqlUtils {
             } else {
                 beginPos += 7;
             }
-            Assert.isTrue(beginPos != -1, " hql : " + sql + " must has a keyword 'from'");
             return sql.substring(beginPos);
         }
         return sql;

@@ -169,7 +169,7 @@ public class ExamNoticeService {
         if (examPaperTemplateEntity != null && examPaperTemplateEntity.getPaperId() != null) {
             String questionSetId = examPaperTemplateEntity.getPaperId();
             result.setQuestionSetId(questionSetId);
-            QuestionSetEntity questionSetEntity = questionSetJpaRepo.findById(questionSetId);
+            QuestionSetEntity questionSetEntity = questionSetJpaRepo.getOne(questionSetId);
             result.setPaperName(questionSetEntity.getName());
         }
         return result;

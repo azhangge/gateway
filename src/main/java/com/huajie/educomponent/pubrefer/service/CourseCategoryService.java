@@ -124,13 +124,13 @@ public class CourseCategoryService {
 
     public Boolean deleteBatch(String userId, List<String> ids){
         Date now = new Date();
-        List<CourseCategoryEntity> entities = courseCategoryJpaRepo.findAll(ids);
+        List<CourseCategoryEntity> entities = courseCategoryJpaRepo.findAllById(ids);
         for (CourseCategoryEntity entity : entities) {
             entity.setDeleted(true);
             entity.setModifierId(userId);
             entity.setModifyDate(now);
         }
-        courseCategoryJpaRepo.save(entities);
+        courseCategoryJpaRepo.saveAll(entities);
 
         return true;
     }
@@ -187,7 +187,7 @@ public class CourseCategoryService {
      * @param categoryId
      */
     public void delete(String userId, String categoryId) {
-        CourseCategoryEntity courseCategoryEntity = courseCategoryJpaRepo.findOne(categoryId);
+        CourseCategoryEntity courseCategoryEntity = courseCategoryJpaRepo.getOne(categoryId);
         if (courseCategoryEntity == null){
             throw new BusinessException("资源不存在");
         }
