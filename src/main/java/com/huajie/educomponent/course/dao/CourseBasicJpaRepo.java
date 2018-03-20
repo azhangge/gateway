@@ -17,11 +17,14 @@ public interface CourseBasicJpaRepo extends JpaRepository<CourseBasicEntity, Str
     @Query("from CourseBasicEntity e where e.creatorId=?1 and e.deleted=0")
     List<CourseBasicEntity> findByCreatorId(String creatorId);
 
+    @Query("from CourseBasicEntity e where e.id=?1 and e.deleted=0")
+    CourseBasicEntity findBasicById(String creatorId);
+
     @Query("from CourseBasicEntity e where e.creatorId=?1 and e.approveStatus=?2 and e.deleted=0")
     List<CourseBasicEntity> findByCreatorIdAndStatus(String creatorId, Integer approveStatus);
 
     @Query("from CourseBasicEntity e where e.id=?1 and e.deleted=0")
-    CourseBasicEntity findById(String id);
+    CourseBasicEntity findByCourseBasicId(String id);
 
     @Query("from CourseBasicEntity e where e.teacherId=?1 and e.deleted=0")
     List<CourseBasicEntity> findByTeacherId(String teacherId);

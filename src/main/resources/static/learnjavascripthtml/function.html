@@ -1,0 +1,37 @@
+<!--1 return;undefine
+    2 参数个数不固定arguments 可变参,数组
+    3 css函数（jquery）,获取/设置样式
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script>-->
+        <!--function sum() {-->
+            <!--alert(arguments.length);-->
+        <!--}-->
+
+        <!--alert(sum(1,2,3)); //返回undefine-->
+    <!--</script>-->
+
+    <script>
+        function css() {
+            if (arguments.length == 2){
+                return arguments[0].style[arguments[1]];
+            }else {
+                arguments[0].style[arguments[1]]=arguments[2];
+            }
+        }
+
+        window.onload=function () {
+            var div1 = document.getElementById('div1');
+            css(div1,'width');
+//            css(div1,'background','red');
+        }
+    </script>
+</head>
+<body>
+    <div id="div1" style="height: 20px;width: 20px;background-color: #94df94"></div>
+</body>
+</html>

@@ -69,7 +69,7 @@ public class CourseService {
             courseBasicEntity.updateCreateInfo(userId);
             courseBasicEntity.setAccessCount(0);
         } else {
-            courseBasicEntity = courseBasicJpaRepo.findOne(courseBo.getCourseId());
+            courseBasicEntity = courseBasicJpaRepo.findByCourseBasicId(courseBo.getCourseId());
             if (courseBasicEntity == null) {
                 throw new BusinessException("课程不存在");
             }
@@ -148,7 +148,7 @@ public class CourseService {
      */
     public CourseBo getDetail(String courseId, String userId) {
 
-        CourseBasicEntity briefEntity = courseBasicJpaRepo.findById(courseId);
+        CourseBasicEntity briefEntity = courseBasicJpaRepo.findBasicById(courseId);
         if (briefEntity == null) {
             throw new BusinessException("课程不存在");
         }
@@ -404,7 +404,7 @@ public class CourseService {
      * @return
      */
     public CourseBasicEntity getCourseBrief(String courseId) {
-        return courseBasicJpaRepo.findById(courseId);
+        return courseBasicJpaRepo.findByCourseBasicId(courseId);
     }
 
     /**
@@ -541,7 +541,7 @@ public class CourseService {
             courseChapterEntity = new CourseChapterEntity();
             courseChapterEntity.updateCreateInfo(userId);
         } else {
-            courseChapterEntity = courseChapterJpaRepo.findOne(chapterBo.getChapterId());
+            courseChapterEntity = courseChapterJpaRepo.findById(chapterBo.getChapterId());
             if (courseChapterEntity == null) {
                 throw new BusinessException("章节不存在");
             }
