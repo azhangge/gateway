@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huajie.appbase.BusinessException;
 import com.huajie.appbase.PageResult;
-import com.huajie.educomponent.course.dao.CourseBasicJpaRepo;
+import com.huajie.educomponent.course.dao.CourseBasicDao;
 import com.huajie.educomponent.course.entity.CourseBasicEntity;
 import com.huajie.educomponent.exam.dao.ExamNoticeJpaRepo;
 import com.huajie.educomponent.exam.entity.ExamNoticeEntity;
@@ -45,7 +45,7 @@ public class AdPromptService {
     private FileStorageService fileStorageService;
 
     @Autowired
-    private CourseBasicJpaRepo courseBasicJpaRepo;
+    private CourseBasicDao courseBasicDao;
 
     @Autowired
     private ExamNoticeJpaRepo examNoticeJpaRepo;
@@ -213,7 +213,7 @@ public class AdPromptService {
         //BeanUtils.copyProperties(adPromptEntity,adPromptBo);
         adPromptBo = convertToBo(adPromptEntity);
         if(adPromptEntity.getResourceType() == ResourceType.COURSE.getValue()) {
-            CourseBasicEntity courseBasicEntity = courseBasicJpaRepo.getOne(adPromptEntity.getResourceId());
+            CourseBasicEntity courseBasicEntity = courseBasicDao.getOne(adPromptEntity.getResourceId());
             if(courseBasicEntity != null) {
                 adPromptBo.setResourceName(courseBasicEntity.getCourseName());
             }

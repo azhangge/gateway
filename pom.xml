@@ -221,34 +221,13 @@
             <version>RELEASE</version>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.0.0.RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>2.15.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
     <!--jdk1.7 指定jetty版本-->
-    <properties>
-        <jetty.version>9.2.17.v20160517</jetty.version>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-    </properties>
+    <!--<properties>-->
+        <!--<jetty.version>9.2.17.v20160517</jetty.version>-->
+        <!--<maven.compiler.source>1.7</maven.compiler.source>-->
+        <!--<maven.compiler.target>1.7</maven.compiler.target>-->
+    <!--</properties>-->
 
     <profiles>
         <profile>

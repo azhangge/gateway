@@ -4,7 +4,7 @@ import com.huajie.appbase.BaseRetMessage;
 import com.huajie.appbase.BusinessException;
 import com.huajie.appbase.PageResult;
 import com.huajie.educomponent.course.bo.CourseCommentBo;
-import com.huajie.educomponent.course.dao.CourseBasicJpaRepo;
+import com.huajie.educomponent.course.dao.CourseBasicDao;
 import com.huajie.educomponent.course.dao.CourseCommentJpaRepo;
 import com.huajie.educomponent.course.entity.CourseBasicEntity;
 import com.huajie.educomponent.course.entity.CourseCommentEntity;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +31,7 @@ public class CourseCommentService {
     private CourseCommentJpaRepo courseCommentJpaRepo;
 
     @Autowired
-    private CourseBasicJpaRepo courseBasicJpaRepo;
+    private CourseBasicDao courseBasicDao;
 
     @Autowired
     private UserBasicInfoService userBasicInfoService;
@@ -91,7 +90,7 @@ public class CourseCommentService {
      * @throws Exception
      */
     private void isCourseExit(String courseId) throws RuntimeException {
-        CourseBasicEntity courseBasicEntity = courseBasicJpaRepo.getOne(courseId);
+        CourseBasicEntity courseBasicEntity = courseBasicDao.getOne(courseId);
         if (courseBasicEntity == null){
             throw new RuntimeException(BaseRetMessage.COURSE_NOT_EXIST.getValue());
         }

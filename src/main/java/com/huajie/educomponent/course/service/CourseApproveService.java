@@ -8,7 +8,7 @@ import com.huajie.educomponent.course.bo.CourseApproveHisBo;
 import com.huajie.educomponent.course.bo.CourseBasicBo;
 import com.huajie.educomponent.course.constants.CourseApproveStatusType;
 import com.huajie.educomponent.course.dao.CourseApproveHisJpaRepo;
-import com.huajie.educomponent.course.dao.CourseBasicJpaRepo;
+import com.huajie.educomponent.course.dao.CourseBasicDao;
 import com.huajie.educomponent.course.entity.CourseApproveHisEntity;
 import com.huajie.educomponent.course.entity.CourseBasicEntity;
 import org.springframework.beans.BeanUtils;
@@ -25,7 +25,7 @@ import java.util.List;
 public class CourseApproveService {
 
     @Autowired
-    private CourseBasicJpaRepo courseBasicJpaRepo;
+    private CourseBasicDao courseBasicDao;
 
     @Autowired
     private CourseApproveHisJpaRepo courseApproveHisJpaRepo;
@@ -45,7 +45,7 @@ public class CourseApproveService {
         if (approveBo.getOperate()!=null && (approveBo.getOperate() < CourseApproveStatusType.APPROVING.getValue() || approveBo.getOperate() > CourseApproveStatusType.REFUSED.getValue())) {
             throw new BusinessException(BaseRetMessage.ARGUMENT_ERROR.getValue());
         }
-        CourseBasicEntity entity = courseBasicJpaRepo.getOne(approveBo.getCourseId());
+        CourseBasicEntity entity = courseBasicDao.getOne(approveBo.getCourseId());
         if (entity.getApproveStatus().equals(approveBo.getOperate())){
             throw new BusinessException(BaseRetMessage.REPEAT_OPERATION.getValue());
         }
@@ -60,7 +60,7 @@ public class CourseApproveService {
             approveHisEntity.setDeleted(true);
             courseApproveHisJpaRepo.save(approveHisEntity);
         }
-        courseBasicJpaRepo.save(entity);
+        courseBasicDao.save(entity);
         saveApproveHis(approveBo, userId);
         return true;
     }
@@ -76,7 +76,7 @@ public class CourseApproveService {
     public PageResult<CourseBasicBo> getApproveStatus(String userId, Integer approveStatus, int page, int size) {
         PageResult<CourseBasicEntity> approveCourses;
         if (approveStatus == 2){
-            approveCourses = courseBasicJpaRepo.findByStatus(approveStatus, page, size);
+            approveCourses = courseBasicDao.findByStatus(approveStatus, page, size);
         }else {
             approveCourses = courseApproveHisJpaRepo.listPages(userId, approveStatus, page, size);
         }
@@ -108,7 +108,7 @@ public class CourseApproveService {
         for (CourseApproveHisEntity course :approveCourses.getItems()) {
             CourseApproveHisBo courseApproveHisBo = new CourseApproveHisBo();
             BeanUtils.copyProperties(course, courseApproveHisBo);
-            CourseBasicEntity courseBasicEntity = courseBasicJpaRepo.getOne(course.getCourseId());
+            CourseBasicEntity courseBasicEntity = courseBasicDao.getOne(course.getCourseId());
             courseApproveHisBo.setCourseName(courseBasicEntity.getCourseName());
             courseApproveHisBo.setCourseApproveStatus(course.getOperate());
             courseBriefBos.add(courseApproveHisBo);
@@ -154,9 +154,9 @@ public class CourseApproveService {
      * @return
      */
     public boolean submitApprove(String courseId) {
-        CourseBasicEntity entity = courseBasicJpaRepo.getOne(courseId);
+        CourseBasicEntity entity = courseBasicDao.getOne(courseId);
         entity.setApproveStatus(CourseApproveStatusType.REQUEST.getValue());
-        courseBasicJpaRepo.save(entity);
+        courseBasicDao.save(entity);
         return true;
     }
 

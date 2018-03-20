@@ -1,9 +1,7 @@
 package com.huajie.educomponent.portal.service;
 
-import com.huajie.appbase.BaseRetMessage;
-import com.huajie.appbase.BusinessException;
 import com.huajie.appbase.PageResult;
-import com.huajie.educomponent.course.dao.CourseBasicJpaRepo;
+import com.huajie.educomponent.course.dao.CourseBasicDao;
 import com.huajie.educomponent.course.entity.CourseBasicEntity;
 import com.huajie.educomponent.exam.dao.ExamNoticeJpaRepo;
 import com.huajie.educomponent.exam.entity.ExamNoticeEntity;
@@ -22,7 +20,7 @@ import java.util.Map;
 public class ResourceService {
 
     @Autowired
-    private CourseBasicJpaRepo courseBasicJpaRepo;
+    private CourseBasicDao courseBasicDao;
 
     @Autowired
     private ExamNoticeJpaRepo examNoticeJpaRepo;
@@ -41,7 +39,7 @@ public class ResourceService {
             param.put("isOnShelves",isOnShelves);
         }
 
-        PageResult<CourseBasicEntity> courseBasicEntityPageResult = courseBasicJpaRepo.findByCondition(param, pageIndex, pageSize);
+        PageResult<CourseBasicEntity> courseBasicEntityPageResult = new PageResult<>();
         List<CourseBasicEntity> courseBasicEntities = (List<CourseBasicEntity>)courseBasicEntityPageResult.getItems();
         if(!courseBasicEntities.isEmpty()) {
             List<ResourceBo> resourceBos = new ArrayList<ResourceBo>();

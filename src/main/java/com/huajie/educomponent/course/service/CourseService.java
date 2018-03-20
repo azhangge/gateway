@@ -31,7 +31,7 @@ import java.util.*;
 public class CourseService {
 
     @Autowired
-    private CourseBasicJpaRepo courseBasicJpaRepo;
+    private CourseBasicDao courseBasicDao;
 
     @Autowired
     private CourseChapterJpaRepo courseChapterJpaRepo;
@@ -69,7 +69,7 @@ public class CourseService {
             courseBasicEntity.updateCreateInfo(userId);
             courseBasicEntity.setAccessCount(0);
         } else {
-            courseBasicEntity = courseBasicJpaRepo.findByCourseBasicId(courseBo.getCourseId());
+            courseBasicEntity = courseBasicDao.findByCourseBasicId(courseBo.getCourseId());
             if (courseBasicEntity == null) {
                 throw new BusinessException("课程不存在");
             }
@@ -92,7 +92,7 @@ public class CourseService {
             courseBasicEntity.setApproveStatus(CourseApproveStatusType.NEW.getValue());
         }
         //保存课程
-        courseBasicEntity = courseBasicJpaRepo.save(courseBasicEntity);
+        courseBasicEntity = courseBasicDao.save(courseBasicEntity);
         //删除章节
         if (courseBo.getDeleteIds() != null && courseBo.getDeleteIds().size() > 0) {
             for (String chapterId : courseBo.getDeleteIds()) {
@@ -148,7 +148,7 @@ public class CourseService {
      */
     public CourseBo getDetail(String courseId, String userId) {
 
-        CourseBasicEntity briefEntity = courseBasicJpaRepo.findBasicById(courseId);
+        CourseBasicEntity briefEntity = courseBasicDao.findBasicById(courseId);
         if (briefEntity == null) {
             throw new BusinessException("课程不存在");
         }
@@ -211,9 +211,9 @@ public class CourseService {
     public List<CourseBasicBo> search(String userId, Integer approveStatus) {
         List<CourseBasicEntity> basicEntityList;
         if (approveStatus != null) {
-            basicEntityList = courseBasicJpaRepo.findByCreatorIdAndStatus(userId, approveStatus);
+            basicEntityList = courseBasicDao.findByCreatorIdAndStatus(userId, approveStatus);
         } else {
-            basicEntityList = courseBasicJpaRepo.findByCreatorId(userId);
+            basicEntityList = courseBasicDao.findByCreatorId(userId);
         }
         List<CourseBasicBo> courseBriefBos = new ArrayList<CourseBasicBo>();
         for (CourseBasicEntity courseBasicEntity : basicEntityList) {
@@ -236,7 +236,7 @@ public class CourseService {
      */
     public void delete(String userId, List<String> courseIds) throws RuntimeException {
 
-        List<CourseBasicEntity> basicEntityList = courseBasicJpaRepo.findByIdIn(courseIds);
+        List<CourseBasicEntity> basicEntityList = courseBasicDao.findByIdIn(courseIds);
         for (CourseBasicEntity basicEntity : basicEntityList) {
             if (basicEntity.getIsOnShelves() != null && basicEntity.getIsOnShelves() == true) {
                 throw new BusinessException("课程已上架，不能删除");
@@ -256,7 +256,7 @@ public class CourseService {
                 fileStorageService.deleteFile(courseAttachment.getCourseAttachmentId());
             }
             basicEntity.setDeleted(true);
-            courseBasicJpaRepo.save(basicEntity);
+            courseBasicDao.save(basicEntity);
         }
 
     }
@@ -287,14 +287,14 @@ public class CourseService {
      */
     public void rollback(String userId, List<String> courseIds) {
 
-        List<CourseBasicEntity> courseList = courseBasicJpaRepo.findByIdIn(courseIds);
+        List<CourseBasicEntity> courseList = courseBasicDao.findByIdIn(courseIds);
         for (CourseBasicEntity basicEntity : courseList) {
             if (basicEntity.getApproveStatus() == null || basicEntity.getApproveStatus() != 2) {
                 throw new BusinessException("操作错误");
             }
             basicEntity.setApproveStatus(1);
             basicEntity.updateModifyInfo(userId);
-            courseBasicJpaRepo.save(basicEntity);
+            courseBasicDao.save(basicEntity);
         }
     }
 
@@ -306,14 +306,14 @@ public class CourseService {
      * @throws Exception
      */
     public void shelve(String userId, List<String> courseIds) throws RuntimeException {
-        List<CourseBasicEntity> courseList = courseBasicJpaRepo.findByIdIn(courseIds);
+        List<CourseBasicEntity> courseList = courseBasicDao.findByIdIn(courseIds);
         for (CourseBasicEntity basicEntity : courseList) {
             if (basicEntity.getIsOnShelves() == false) {
                 basicEntity.setIsOnShelves(true);
             } else {
                 basicEntity.setIsOnShelves(false);
             }
-            courseBasicJpaRepo.save(basicEntity);
+            courseBasicDao.save(basicEntity);
         }
     }
 
@@ -323,7 +323,7 @@ public class CourseService {
      * @return
      */
     public List<CourseBasicBo> getRecommend() {
-        List<CourseBasicEntity> courseBasicEntities = courseBasicJpaRepo.getRecommend();
+        List<CourseBasicEntity> courseBasicEntities = courseBasicDao.getRecommend();
         List<CourseBasicBo> recommendCourse = new ArrayList<CourseBasicBo>();
         for (CourseBasicEntity courseBasicEntity : courseBasicEntities) {
             CourseBasicBo courseBasicBo = convertToBo(courseBasicEntity);
@@ -352,7 +352,7 @@ public class CourseService {
         //Todo 参数改成Map
         PageResult<CourseBasicBo> result = new PageResult<CourseBasicBo>();
         List<CourseBasicBo> basicBos = new ArrayList<CourseBasicBo>();
-        PageResult<CourseBasicEntity> basicResult = courseBasicJpaRepo.listPages(queryKeyword, mainCategoryId, subCategoryId, isPublic, onShelves, orderKey, order, maxScore, minScore, pageIndex, pageSize);
+        PageResult<CourseBasicEntity> basicResult = courseBasicDao.listPages(queryKeyword, mainCategoryId, subCategoryId, isPublic, onShelves, orderKey, order, maxScore, minScore, pageIndex, pageSize);
         for (CourseBasicEntity entity : basicResult.getItems()) {
             CourseBasicBo courseBasicBo = convertToBo(entity);
             basicBos.add(courseBasicBo);
@@ -375,9 +375,9 @@ public class CourseService {
         PageResult<CourseBasicBo> result = new PageResult<CourseBasicBo>();
         PageResult<CourseBasicEntity> courses;
         if (sortType == CourseSortType.NEWEST.getValue()) {
-            courses = courseBasicJpaRepo.listPages(null, null, null, true, true, 0, 1, null, null, pageIndex, pageSize);
+            courses = courseBasicDao.listPages(null, null, null, true, true, 0, 1, null, null, pageIndex, pageSize);
         } else {
-            courses = courseBasicJpaRepo.listPages(null, null, null, true, true, 1, 1, null, null, pageIndex, pageSize);
+            courses = courseBasicDao.listPages(null, null, null, true, true, 1, 1, null, null, pageIndex, pageSize);
         }
         List<CourseBasicBo> basicBoList = convertToBoList((List<CourseBasicEntity>) courses.getItems());
         result.setItems(basicBoList);
@@ -393,7 +393,7 @@ public class CourseService {
      * @return
      */
     public CourseBasicBo getCategoryCourseTop(Integer categoryType, String categoryId) {
-        CourseBasicEntity courseBasic = courseBasicJpaRepo.findCategoryCourseTop(categoryType, categoryId);
+        CourseBasicEntity courseBasic = new CourseBasicEntity();
         return convertToBo(courseBasic);
     }
 
@@ -404,7 +404,7 @@ public class CourseService {
      * @return
      */
     public CourseBasicEntity getCourseBrief(String courseId) {
-        return courseBasicJpaRepo.findByCourseBasicId(courseId);
+        return courseBasicDao.findByCourseBasicId(courseId);
     }
 
     /**
@@ -414,7 +414,7 @@ public class CourseService {
      * @return
      */
     public CourseBasicEntity svaeCourseBrief(CourseBasicEntity courseBasicEntity) {
-        return courseBasicJpaRepo.save(courseBasicEntity);
+        return courseBasicDao.save(courseBasicEntity);
     }
 
     /**
